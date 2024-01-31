@@ -1,0 +1,197 @@
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no" />
+    <title>West Virginia Recreational Trails</title>
+    <link rel="stylesheet" href="https://js.arcgis.com/4.28/esri/themes/dark/main.css" />
+    <script src="https://js.arcgis.com/4.28/"></script>
+    <style>
+        html, body, #viewDiv {
+            padding: 0;
+            margin: 0;
+            height: 100%;
+            width: 100%;
+        }
+        #controls {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            z-index: 99;
+            background-color: #ffffff;
+            padding: 10px;
+            border-radius: 5px;
+        }
+        .esri-select {
+            width: 200px;
+            height: 25px;
+            margin-top: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div id="viewDiv"></div>
+    <div id="controls" class="esri-widget">
+        Filter by trail type:
+        <select id="trailTypeSelect" class="esri-select">
+            <option value="All">All</option>
+            <option value="Horseback">Horseback</option>
+            <option value="Hiking">Hiking</option>
+            <option value="Biking">Biking</option>
+        </select>
+    </div>
+    <script>
+        require([
+            "esri/Map",
+            "esri/views/MapView",
+            "esri/layers/FeatureLayer",
+            "esri/widgets/Fullscreen",
+            "esri/widgets/Legend",
+            "esri/widgets/Zoom",
+            "esri/widgets/BasemapToggle",
+            "esri/widgets/Expand",
+            "esri/widgets/Home"
+        ], function(Map, MapView, FeatureLayer, Fullscreen, Legend, Zoom, BasemapToggle, Expand, Home) {
+            const map = new Map({
+                basemap: "dark-gray-vector"
+            });
+
+            const view = new MapView({
+                container: "viewDiv",
+                map: map,
+                center: [-79, 38.85], // Centered at West Virginia
+                zoom: 7,
+                constraints: {
+                    snapToZoom: false
+                }
+            });
+
+            // Popup template
+            const popupTemplate = {
+                title: "{trailName}",
+                content: [
+                    {
+                        type: "fields",
+                        fieldInfos: [
+                            {
+                                fieldName: "trailName",
+                                label: "Trail Name"
+                            },
+                            {
+                                fieldName: "newLength",
+                                label: "Trail Length (Miles)"
+                            },
+                            {
+                                fieldName: "manageOrg",
+                                label: "Managed By"
+                            },
+                            {
+                                fieldName: "Traveltime",
+                                label: "Travel Time by mode (Hours)"
+                            }
+                        ]
+                    }
+                ]
+            };
+
+            // Trail Layers
+            const allTrailsLayer = new FeatureLayer({ url: "https://services1.arcgis.com/ze0XBzU1FXj94DJq/ArcGIS/rest/services/WV_Trail/FeatureServer/3", popupTemplate });
+            const bikingTrailsLayer = new FeatureLayer({ url: "https://services1.arcgis.com/ze0XBzU1FXj94DJq/ArcGIS/rest/services/WV_Trail/FeatureServer/2", popupTemplate });
+            const hikingTrailsLayer = new FeatureLayer({ url: "https://services1.arcgis.com/ze0XBzU1FXj94DJq/ArcGIS/rest/services/WV_Trail/FeatureServer/1", popupTemplate });
+            const horsebackTrailsLayer = new FeatureLayer({ url: "https://services1.arcgis.com/ze0XBzU1FXj94DJq/ArcGIS/rest/services/WV_Trail/FeatureServer/0", popupTemplate });
+
+            map.add(allTrailsLayer);
+
+            // Fullscreen widget
+            const fullscreen = new Fullscreen({ view: view });
+            view.ui.add(fullscreen, "top-left");
+
+            // Legend
+            const legend = new Legend({ view: view });
+            const legendExpand = new Expand({ view: view, content: legend, expanded: true });
+            view.ui.add(legendExpand, "bottom-right");
+
+            // Zoom widget
+            const zoom = new Zoom({ view: view });
+            view.ui.add(zoom, "top-left");
+
+            // Basemap toggle
+            const basemapToggle = new BasemapToggle({ view: view, nextBasemap: "satellite" });
+            view.ui.add(basemapToggle, "bottom-left");
+
+            // Home widget
+            const homeBtn = new Home({ view: view });
+            view.ui.add(homeBtn, "top-left");
+
+            // Instructions widget
+            const instructionsContent = document.createElement("div");
+            instructionsContent.style.padding = "10px";
+            instructionsContent.style.backgroundColor = "white";
+            instructionsContent.style.color = "#36393B";
+            instructionsContent.style.width = "380px";
+            instructionsContent.innerHTML = `
+                <h3>West Virginia Recreational Trails</h3>
+                <p>Explore over 6,800 miles of public recreational trails in West Virginia. This interactive map allows you to filter trails by type.</p>
+                <p>Click on a trail for more information including name, length, managing organization, and travel time.</p>
+                <p>Prepared using ArcGIS Maps SDK for JavaScript, v4.28</p>
+                <p>Author: <a href="mailto:nilayvinchhi@gmail.com">Nilay Vinchhi</a></p>
+                <p>Data Source: <a href="https://wvgis.wvu.edu/data/dataset.php?ID=413">West Virginia GIS Technical Center</a></p>
+            `;
+
+            const instructionsExpand = new Expand({
+                view: view,
+                content: instructionsContent,
+                expandIcon: "question",
+                expandTooltip: "Information and Instructions",
+                expanded: true
+            });
+            view.ui.add(instructionsExpand, "top-right");
+
+            // Instructions for Travel Time
+            const travelTimeInstructionsContent = document.createElement("div");
+            travelTimeInstructionsContent.style.padding = "10px";
+            travelTimeInstructionsContent.style.backgroundColor = "white";
+            travelTimeInstructionsContent.style.color = "#36393B";
+            travelTimeInstructionsContent.style.width = "350px";
+            travelTimeInstructionsContent.innerHTML = `
+                <h3>Travel Time Estimates</h3>
+                <p>Travel time estimates:</p>
+                <ul>
+                    <li>Hiking: Average speed 2.5 mph</li>
+                    <li>Biking: Average speed 12.1 mph</li>
+                    <li>Horseback Riding: Average speed 4 mph</li>
+                </ul>
+            `;
+
+            const travelTimeInstructionsExpand = new Expand({
+                view: view,
+                content: travelTimeInstructionsContent,
+                expandIcon: "pie-chart",
+                expandTooltip: "Travel Time Estimates",
+                expanded: false
+            });
+            view.ui.add(travelTimeInstructionsExpand, "top-left");
+
+            // Trail type filter
+            document.getElementById("trailTypeSelect").addEventListener("change", function(event) {
+                const type = event.target.value;
+                map.removeAll();
+                switch (type) {
+                    case "All":
+                        map.add(allTrailsLayer);
+                        break;
+                    case "Horseback":
+                        map.add(horsebackTrailsLayer);
+                        break;
+                    case "Hiking":
+                        map.add(hikingTrailsLayer);
+                        break;
+                    case "Biking":
+                        map.add(bikingTrailsLayer);
+                        break;
+                }
+
+            });
+        });
+    </script>
+</body>
+</html>
