@@ -15,4 +15,4 @@ This report outlines the details of the web mapping application developed for di
 
 ## Application
 
-<iframe src= "WVtrails.html" height= "600" width= "150%"> </iframe>
+<iframe src= "WVtrails.html" height= "600" width= "130%"> </iframe>
