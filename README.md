@@ -1,11 +1,5 @@
-# WV-Trails
+# Visualizing Recreational Trails of West Virginia
 Data Visualization project using ArcGIS SDK JavaScript v4.28
-
-Certainly! Below is a detailed report in Markdown format for the code of the web mapping application created using the ArcGIS Maps SDK for JavaScript. This report can be used as documentation for your project.
-
----
-
-# Web Mapping Application Report
 
 ## Overview
 
