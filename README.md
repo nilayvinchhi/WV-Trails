@@ -1,18 +1,24 @@
 # Visualizing Recreational Trails of West Virginia
-Data Visualization project using ArcGIS SDK JavaScript v4.28
+Data Visualization Project Using ArcGIS SDK for JavaScript v4.28
 
 ## Overview
 
-This report outlines the details of the web mapping application developed for displaying and interacting with the "Recreational Trails of West Virginia". The application was built using the ArcGIS Maps SDK for JavaScript and is designed to provide users with an interactive map for exploring various trail lines across West Virginia.
+This report provides insights into a web mapping application created to showcase and interact with the "Recreational Trails of West Virginia." Developed with the ArcGIS Maps SDK for JavaScript, this application offers an engaging map interface to explore diverse trail routes throughout West Virginia.
 
-## Application Features
+## Key Features
 
-- **Map Layers:** The application displays trail lines with appropriate symbology over a base map layer.
-- **Navigation Tools:** Users can zoom, pan, and view the entire state of West Virginia (full extent).
-- **Identify Trails:** Clicking on a trail segment displays attributes such as trail name, length, travel time, and managing organization.
-- **Filter Trails:** Users can filter trails by their use type: hiking, biking, and horseback riding.
-- **Basemap Toggle:** An optional widget allows users to switch between basic and satellite base maps.
+- **Navigation Tools and Widgets:** The application offers a range of navigation tools, including zoom, pan, legends, fullscreen mode, and informative pop-up instructions. Users can also access the full extent view of West Virginia.
 
-## Application
+- **Trail Identification:** By clicking on a trail segment, users can access detailed attributes such as trail name, length, estimated travel time by mode, and managing organization.
 
-<iframe src= "WVtrails.html" height= "600" width= "100%"> </iframe>
+- **Trail Filtering:** Users have the option to filter trails based on their designated use types, including hiking, biking, and horseback riding.
+
+- **Travel Time Estimation:** The application provides users with the ability to estimate the time required to complete a trail using different modes of transportation. Assumptions about average speeds are considered in these calculations.
+
+- **Basemap Toggle:** An optional widget empowers users to switch between basic and satellite base maps for enhanced visualization.
+
+## Application Preview
+
+<iframe src="WVtrails.html" height="600" width="100%"></iframe>
+
+Explore the rich network of recreational trails across West Virginia with our interactive mapping application.
