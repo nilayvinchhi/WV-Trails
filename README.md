@@ -19,6 +19,6 @@ This report provides insights into a web mapping application created to showcase
 
 ## Application Preview
 
-<iframe src="WVtrails.html" height="600" width="100%"></iframe>
+<iframe src="WVtrails.html" height="600" width="120%"></iframe>
 
 Explore the rich network of recreational trails across West Virginia with our interactive mapping application.
