@@ -90,7 +90,6 @@ Explore the rich network of recreational trails across West Virginia with our in
             const map = new Map({
                 basemap: "dark-gray-vector"
             });
-
             // Create the map view, setting the container, map, center, zoom level, and constraints
             const view = new MapView({
                 container: "viewDiv",
