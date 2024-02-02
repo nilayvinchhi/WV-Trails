@@ -99,7 +99,6 @@ Explore the rich network of recreational trails across West Virginia with our in
                     snapToZoom: false
                 }
             });
-
             // Define popup template for displaying trail information
             const popupTemplate = {
                 title: "{trailName}",
@@ -127,7 +126,6 @@ Explore the rich network of recreational trails across West Virginia with our in
                     }
                 ]
             };
-
             // Define feature layers for different trail types using their respective ArcGIS service URLs
             const allTrailsLayer = new FeatureLayer({ url: "https://services1.arcgis.com/ze0XBzU1FXj94DJq/ArcGIS/rest/services/WV_Trail/FeatureServer/3", popupTemplate });
             const bikingTrailsLayer = new FeatureLayer({ url: "https://services1.arcgis.com/ze0XBzU1FXj94DJq/ArcGIS/rest/services/WV_Trail/FeatureServer/2", popupTemplate });
