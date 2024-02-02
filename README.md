@@ -131,10 +131,8 @@ Explore the rich network of recreational trails across West Virginia with our in
             const bikingTrailsLayer = new FeatureLayer({ url: "https://services1.arcgis.com/ze0XBzU1FXj94DJq/ArcGIS/rest/services/WV_Trail/FeatureServer/2", popupTemplate });
             const hikingTrailsLayer = new FeatureLayer({ url: "https://services1.arcgis.com/ze0XBzU1FXj94DJq/ArcGIS/rest/services/WV_Trail/FeatureServer/1", popupTemplate });
             const horsebackTrailsLayer = new FeatureLayer({ url: "https://services1.arcgis.com/ze0XBzU1FXj94DJq/ArcGIS/rest/services/WV_Trail/FeatureServer/0", popupTemplate });
-
             // Add the 'All Trails' layer to the map by default
             map.add(allTrailsLayer);
-
             // Add interactive widgets to the map view for enhanced user experience
             const fullscreen = new Fullscreen({ view: view });
             view.ui.add(fullscreen, "top-left");
@@ -151,7 +149,6 @@ Explore the rich network of recreational trails across West Virginia with our in
 
             const homeBtn = new Home({ view: view });
             view.ui.add(homeBtn, "top-left");
-
             // Create and add instructional content to the map view
             const instructionsContent = document.createElement("div");
             instructionsContent.style.padding = "10px";
@@ -174,7 +171,6 @@ Explore the rich network of recreational trails across West Virginia with our in
                 expanded: true
             });
             view.ui.add(instructionsExpand, "top-right");
-
             // Additional instructional content for travel time estimates
             const travelTimeInstructionsContent = document.createElement("div");
             travelTimeInstructionsContent.style.padding = "10px";
@@ -198,7 +194,6 @@ Explore the rich network of recreational trails across West Virginia with our in
                 expanded: false
             });
             view.ui.add(travelTimeInstructionsExpand, "top-left");
-
             // Event listener for the trail type filter dropdown to update the map based on selected trail type
             document.getElementById("trailTypeSelect").addEventListener("change", function(event) {
                 const type = event.target.value;
