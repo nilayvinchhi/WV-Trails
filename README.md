@@ -25,7 +25,6 @@ Explore the rich network of recreational trails across West Virginia with our in
 
 ## Source Code
 ``` md
-<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
