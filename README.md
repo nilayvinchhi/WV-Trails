@@ -25,29 +25,35 @@ Explore the rich network of recreational trails across West Virginia with our in
 
 ## Source Code
 ``` md
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no" />
     <title>West Virginia Recreational Trails</title>
+    <!-- Link to ArcGIS API for JavaScript's dark theme stylesheet for map and UI components -->
     <link rel="stylesheet" href="https://js.arcgis.com/4.28/esri/themes/dark/main.css" />
+    <!-- ArcGIS API for JavaScript library -->
     <script src="https://js.arcgis.com/4.28/"></script>
     <style>
+        /* Style for the map container and body to ensure the map occupies the full screen */
         html, body, #viewDiv {
             padding: 0;
             margin: 0;
             height: 100%;
             width: 100%;
         }
+        /* Style for the control panel overlay */
         #controls {
             position: absolute;
             top: 10px;
             left: 10px;
             z-index: 99;
-            background-color: #ffffff;
+            background-color: #222222; /* Dark background for better visibility */
             padding: 10px;
             border-radius: 5px;
         }
+        /* Style for the trail type filter dropdown */
         .esri-select {
             width: 200px;
             height: 25px;
@@ -56,7 +62,9 @@ Explore the rich network of recreational trails across West Virginia with our in
     </style>
 </head>
 <body>
+    <!-- Container for displaying the map -->
     <div id="viewDiv"></div>
+    <!-- Control panel for filtering trails by type -->
     <div id="controls" class="esri-widget">
         Filter by trail type:
         <select id="trailTypeSelect" class="esri-select">
@@ -78,10 +86,12 @@ Explore the rich network of recreational trails across West Virginia with our in
             "esri/widgets/Expand",
             "esri/widgets/Home"
         ], function(Map, MapView, FeatureLayer, Fullscreen, Legend, Zoom, BasemapToggle, Expand, Home) {
+            // Initialize the map with a dark-gray vector basemap
             const map = new Map({
                 basemap: "dark-gray-vector"
             });
 
+            // Create the map view, setting the container, map, center, zoom level, and constraints
             const view = new MapView({
                 container: "viewDiv",
                 map: map,
@@ -92,7 +102,7 @@ Explore the rich network of recreational trails across West Virginia with our in
                 }
             });
 
-            // Popup template
+            // Define popup template for displaying trail information
             const popupTemplate = {
                 title: "{trailName}",
                 content: [
@@ -120,36 +130,33 @@ Explore the rich network of recreational trails across West Virginia with our in
                 ]
             };
 
-            // Trail Layers
+            // Define feature layers for different trail types using their respective ArcGIS service URLs
             const allTrailsLayer = new FeatureLayer({ url: "https://services1.arcgis.com/ze0XBzU1FXj94DJq/ArcGIS/rest/services/WV_Trail/FeatureServer/3", popupTemplate });
             const bikingTrailsLayer = new FeatureLayer({ url: "https://services1.arcgis.com/ze0XBzU1FXj94DJq/ArcGIS/rest/services/WV_Trail/FeatureServer/2", popupTemplate });
             const hikingTrailsLayer = new FeatureLayer({ url: "https://services1.arcgis.com/ze0XBzU1FXj94DJq/ArcGIS/rest/services/WV_Trail/FeatureServer/1", popupTemplate });
             const horsebackTrailsLayer = new FeatureLayer({ url: "https://services1.arcgis.com/ze0XBzU1FXj94DJq/ArcGIS/rest/services/WV_Trail/FeatureServer/0", popupTemplate });
 
+            // Add the 'All Trails' layer to the map by default
             map.add(allTrailsLayer);
 
-            // Fullscreen widget
+            // Add interactive widgets to the map view for enhanced user experience
             const fullscreen = new Fullscreen({ view: view });
             view.ui.add(fullscreen, "top-left");
 
-            // Legend
             const legend = new Legend({ view: view });
             const legendExpand = new Expand({ view: view, content: legend, expanded: true });
             view.ui.add(legendExpand, "bottom-right");
 
-            // Zoom widget
             const zoom = new Zoom({ view: view });
             view.ui.add(zoom, "top-left");
 
-            // Basemap toggle
             const basemapToggle = new BasemapToggle({ view: view, nextBasemap: "satellite" });
             view.ui.add(basemapToggle, "bottom-left");
 
-            // Home widget
             const homeBtn = new Home({ view: view });
             view.ui.add(homeBtn, "top-left");
 
-            // Instructions widget
+            // Create and add instructional content to the map view
             const instructionsContent = document.createElement("div");
             instructionsContent.style.padding = "10px";
             instructionsContent.style.backgroundColor = "white";
@@ -163,7 +170,6 @@ Explore the rich network of recreational trails across West Virginia with our in
                 <p>Author: <a href="mailto:nilayvinchhi@gmail.com">Nilay Vinchhi</a></p>
                 <p>Data Source: <a href="https://wvgis.wvu.edu/data/dataset.php?ID=413">West Virginia GIS Technical Center</a></p>
             `;
-
             const instructionsExpand = new Expand({
                 view: view,
                 content: instructionsContent,
@@ -173,7 +179,7 @@ Explore the rich network of recreational trails across West Virginia with our in
             });
             view.ui.add(instructionsExpand, "top-right");
 
-            // Instructions for Travel Time
+            // Additional instructional content for travel time estimates
             const travelTimeInstructionsContent = document.createElement("div");
             travelTimeInstructionsContent.style.padding = "10px";
             travelTimeInstructionsContent.style.backgroundColor = "white";
@@ -188,7 +194,6 @@ Explore the rich network of recreational trails across West Virginia with our in
                     <li>Horseback Riding: Average speed 4 mph</li>
                 </ul>
             `;
-
             const travelTimeInstructionsExpand = new Expand({
                 view: view,
                 content: travelTimeInstructionsContent,
@@ -198,10 +203,10 @@ Explore the rich network of recreational trails across West Virginia with our in
             });
             view.ui.add(travelTimeInstructionsExpand, "top-left");
 
-            // Trail type filter
+            // Event listener for the trail type filter dropdown to update the map based on selected trail type
             document.getElementById("trailTypeSelect").addEventListener("change", function(event) {
                 const type = event.target.value;
-                map.removeAll();
+                map.removeAll(); // Remove all layers before adding the selected type
                 switch (type) {
                     case "All":
                         map.add(allTrailsLayer);
@@ -216,10 +221,10 @@ Explore the rich network of recreational trails across West Virginia with our in
                         map.add(bikingTrailsLayer);
                         break;
                 }
-
             });
         });
     </script>
 </body>
 </html>
+
 ```
