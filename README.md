@@ -23,8 +23,8 @@ This report provides insights into a web mapping application created to showcase
 
 Explore the rich network of recreational trails across West Virginia with our interactive mapping application.
 
-#Source Code:
-```
+## Source Code
+``` md
 <html lang="en">
 <head>
     <meta charset="utf-8" />
